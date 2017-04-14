@@ -1,0 +1,30 @@
+version: '2.0'
+
+services:
+  nextcloud:
+    image: nextcloud:0.01
+#    container_name: owncloud
+    depends_on:
+      - mariadb
+    links:
+      - mariadb:mysql_db
+    ports:
+      - 127.0.0.1:8081:80
+    volumes:
+      - ./data:/nextcloud/data:rw
+      - ./config:/nextcloud/config:rw
+      - ./apps:/nextcloud/apps:rw
+    environment:
+      ADMIN_USER: ocadmin
+      ADMIN_PASSWORD: 1234
+      DB_TYPE: mysql
+      DB_NAME: nextcloud
+      DB_USER: root
+      DB_PASSWORD: geheim
+      DB_HOST: mysql_db
+
+  mariadb:
+    image: mariadb
+    container_name: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: geheim
