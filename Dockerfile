@@ -51,8 +51,10 @@ RUN mv /nextcloud/apps/* /nextcloud/default_apps/
 # add scripts
 ADD entrypoint.sh /entrypoint.sh
 ADD permissions.sh /permissions.sh
+ADD occ /usr/bin/occ
 RUN chmod +x /entrypoint.sh
 RUN chmod +x /permissions.sh
+RUN chmod +x /usr/bin/occ
 
 WORKDIR /nextcloud
 

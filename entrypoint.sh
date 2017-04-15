@@ -16,15 +16,15 @@ then
   tail -f /var/log/nginx/error.log
 else
   echo "#### Start install"
-  su nginx -s /bin/bash -c 'php7 occ  maintenance:install -n \
+  occ maintenance:install -n \
   --database  "${DB_TYPE}" \
   --database-host "${DB_HOST}" \
   --database-name "${DB_NAME}" \
   --database-user "${DB_USER}" \
   --database-pass "${DB_PASSWORD}" \
   --admin-user "${ADMIN_USER}" \
-  --admin-pass "${ADMIN_PASSWORD}"'
-  su nginx -s /bin/bash -c 'php7 occ  config:system:set memcache.local --value="\OC\Memcache\APCu"'
+  --admin-pass "${ADMIN_PASSWORD}"
+  occ  config:system:set memcache.local --value="\OC\Memcache\APCu"
 
   echo "#### Run Nextcloud"
   php-fpm7

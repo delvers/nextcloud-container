@@ -1,0 +1,3 @@
+#!/bin/bash
+export some_params=$*
+su nginx -s /bin/bash -c 'php7 occ ${some_params}'
