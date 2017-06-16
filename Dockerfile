@@ -40,6 +40,10 @@ RUN mkdir /run/nginx/ && touch /run/nginx/nginx.pid
 ADD fpm-php.conf /etc/php7/php-fpm.d/www.conf
 ADD php.ini /etc/php7/php.ini
 
+# config cron job
+ADD cron.sh /etc/periodic/15min/nextcloud.sh
+RUN chmod +x /etc/periodic/15min/nextcloud.sh
+
 # add data dirctory
 RUN mkdir /nextcloud/data
 RUN chown -R nginx:nginx /nextcloud

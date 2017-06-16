@@ -31,7 +31,11 @@ then
   --admin-user "${ADMIN_USER}" \
   --admin-pass "${ADMIN_PASSWORD}"
   occ config:system:set memcache.local --value="\OC\Memcache\APCu"
-  occ config:system:set trusted_domains 1 --value="${DOMAIN}"
+  occ background:cron
+  if [ -n ${DOMAIN} ]
+  then
+    occ config:system:set trusted_domains 1 --value="${DOMAIN}"
+  fi
   if [ -n ${USER} ]
   then
     export OC_PASS=${USER_PASSWORD}
