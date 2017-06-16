@@ -3,7 +3,7 @@ if [ -e /nextcloud/apps/files ]
 then
   echo "Apps seem to be ok..."
 else
-  mv /nextcloud/default_apps/* /nextcloud/apps/
+  mv /default_apps/* /nextcloud/apps/
 fi
 
 /permissions.sh
