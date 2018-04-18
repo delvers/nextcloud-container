@@ -2,7 +2,8 @@ version: '2.0'
 
 services:
   nextcloud:
-    build: .
+    #build: .
+    image: local/nextcloud:13
     depends_on:
       - mariadb
     links:
@@ -13,14 +14,14 @@ services:
       - ./data:/nextcloud/data:rw
       - ./config:/nextcloud/config:rw
       - ./apps:/nextcloud/apps:rw
-    environment:
-      ADMIN_USER: ocadmin
-      ADMIN_PASSWORD: 1234
-      DB_TYPE: mysql
-      DB_NAME: nextcloud
-      DB_USER: root
-      DB_PASSWORD: geheim
-      DB_HOST: mysql_db
+    #environment:
+      #ADMIN_USER: ocadmin
+      #ADMIN_PASSWORD: 1234
+      #DB_TYPE: mysql
+      #DB_NAME: nextcloud
+      #DB_USER: root
+      #DB_PASSWORD: geheim
+      #DB_HOST: mysql_db
 
   mariadb:
     image: mariadb

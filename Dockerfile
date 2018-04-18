@@ -41,8 +41,8 @@ ADD fpm-php.conf /etc/php7/php-fpm.d/www.conf
 ADD php.ini /etc/php7/php.ini
 
 # config cron job
-ADD cron.sh /etc/periodic/15min/nextcloud.sh
-RUN chmod +x /etc/periodic/15min/nextcloud.sh
+ADD cron.sh /etc/periodic/15min/nextcloud
+RUN chmod +x /etc/periodic/15min/nextcloud
 
 # add data dirctory
 RUN mkdir /nextcloud/data
@@ -61,6 +61,15 @@ RUN chmod +x /permissions.sh
 RUN chmod +x /usr/bin/occ
 
 WORKDIR /nextcloud
+
+ENV ADMIN_USER ocadmin
+ENV ADMIN_PASSWORD 1234
+ENV DB_TYPE     mysql
+ENV DB_NAME     nextcloud
+ENV DB_USER     root
+ENV DB_PASSWORD geheim
+ENV DB_HOST     mysql_db
+
 
 EXPOSE 80
 ENTRYPOINT ["/entrypoint.sh"]

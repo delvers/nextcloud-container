@@ -13,13 +13,15 @@ version=`occ status | grep version: | sed  's/^  - version: \(.*\)$/\1/'`
 old_version=`grep version config/config.php | sed " s/^  \'version\' => \'\(.*\)\',$/\1/"`
 
 
-if [ $old_version != $version ]
+if [[ ${old_version} && $old_version != $version ]]
 then
   echo "#### Upgrade"
+  rm -R apps/*
   occ upgrade
+  occ maintenance:mode --off
 fi
 
-if [ $installed == 'false' ]
+if [[ $installed == 'false' ]]
 then
   echo "#### Start install"
   occ maintenance:install -n \
@@ -30,13 +32,16 @@ then
   --database-pass "${DB_PASSWORD}" \
   --admin-user "${ADMIN_USER}" \
   --admin-pass "${ADMIN_PASSWORD}"
+  
+  sleep 40
+
   occ config:system:set memcache.local --value="\OC\Memcache\APCu"
   occ background:cron
-  if [ -n ${DOMAIN} ]
+  if [[ -n ${DOMAIN} ]]
   then
     occ config:system:set trusted_domains 1 --value="${DOMAIN}"
   fi
-  if [ -n ${USER} ]
+  if [[ -n ${USER} ]]
   then
     export OC_PASS=${USER_PASSWORD}
     occ user:add --password-from-env ${USER}
@@ -46,4 +51,5 @@ fi
 echo "#### Run Nextcloud"
 php-fpm7
 nginx
+crond
 tail -f /var/log/nginx/error.log -f /nextcloud/data/nextcloud.log
